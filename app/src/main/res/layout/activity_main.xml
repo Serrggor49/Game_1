@@ -22,6 +22,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/apple" />
@@ -38,7 +39,7 @@
             android:id="@+id/layout_info_zone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="7"
+            android:layout_weight="11"
             android:background="#FFFFFF"
             android:orientation="horizontal">
 
@@ -52,7 +53,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
             </FrameLayout>
 
             <FrameLayout
@@ -67,7 +70,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="30" />
+                    android:text="30"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
             </FrameLayout>
 
         </LinearLayout>
