@@ -19,10 +19,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "myLogs";
     private int PICTURE_SIZE = 100; // размер цели в dp
     private int hitCount = 0;  // счетчик попаданий
-    private int GAME_TIME = 7;  // продолжительность игры в секундах
+    private int GAME_TIME = 30;  // продолжительность игры в секундах
     private int FREQ = 500;  // частота обновления цели в мс
     private int maxHeightGameZone;
     private int maxWidthGameZone;
+    boolean FLAG = false;
 
     TextView timerTextView;
     TextView counterTextView;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
+        getSupportActionBar().hide();
     }
 
     private void init() {
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "ширина экрана " + maxWidthGameZone);
                 buttonStart.setVisibility(View.GONE);
                 startGame();
-
+                FLAG = true;
             }
         });
 
@@ -56,15 +59,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 hitCount++;
+                counterTextView.setText("Счет: " + hitCount);
                 buttonTarget.setVisibility(View.GONE);
+
             }
         });
 
         timerTextView = findViewById(R.id.timer_textview_id);
         counterTextView = findViewById(R.id.counter_textview_id);
+        counterTextView.setText("Счет: 0");
+
 
         buttonTarget.setX(maxWidthGameZone);
         buttonTarget.setY(maxHeightGameZone);
+
     }
 
     private void startGame() {
@@ -73,12 +81,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 timerTextView.setText("Время: " + millisUntilFinished / 1000 + "");
-                counterTextView.setText("Счет: " + hitCount);
             }
 
             @Override
             public void onFinish() {
-                timerTextView.setText("Время вышло");
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
                 intent.putExtra("COUNT", hitCount);
                 startActivity(intent);
@@ -87,13 +93,18 @@ public class MainActivity extends AppCompatActivity {
 
         new CountDownTimer(GAME_TIME * 1000, FREQ) {  // обновление цели
             public void onTick(long millisUntilFinished) {
-                getRandomFruitsImage();
-                buttonTarget.setVisibility(View.VISIBLE);
-                int randomX = ThreadLocalRandom.current().nextInt(0, maxWidthGameZone + 1);
-                int randomY = ThreadLocalRandom.current().nextInt(0, maxHeightGameZone + 1);
 
-                buttonTarget.setX(randomX);
-                buttonTarget.setY(randomY);
+                if (FLAG) {
+                    FLAG = false;
+                } else {
+                    getRandomFruitsImage();
+                    buttonTarget.setVisibility(View.VISIBLE);
+                    int randomX = ThreadLocalRandom.current().nextInt(0, maxWidthGameZone + 1);
+                    int randomY = ThreadLocalRandom.current().nextInt(0, maxHeightGameZone + 1);
+
+                    buttonTarget.setX(randomX);
+                    buttonTarget.setY(randomY);
+                }
 
             }
 
